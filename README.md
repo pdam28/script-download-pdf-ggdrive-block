@@ -1,56 +1,101 @@
-Script Tải Ảnh (Blob) sang PDF
-Đây là một đoạn mã JavaScript mạnh mẽ được thiết kế để chạy trong trình duyệt (dưới dạng Bookmarklet hoặc qua Console). Nó tự động quét, cuộn và tải xuống tất cả các hình ảnh có nguồn blob: trên một trang web và tổng hợp chúng thành một file PDF duy nhất.
+# Script Tải Ảnh (Blob) sang PDF
 
-🌟 Tính năng chính
-Tự động cuộn thông minh: Tự động cuộn trang chính VÀ tất cả các khung cuộn con bên trong để kích hoạt "lazy loading", đảm bảo thu thập đủ 100% ảnh.
+![JavaScript](https://img.shields.io/badge/JavaScript-F7DF1E?style=for-the-badge&logo=javascript&logoColor=black)
+![jsPDF](https://img.shields.io/badge/jsPDF-FF0000?style=for-the-badge&logo=adobeacrobatreader&logoColor=white)
 
-Tổng hợp PDF: Sử dụng thư viện jsPDF (tải tự động) để ghép tất cả ảnh tìm được thành một file PDF duy nhất.
+Đây là một đoạn mã JavaScript mạnh mẽ được thiết kế để chạy trong trình duyệt (dưới dạng **Bookmarklet** hoặc qua **Console**). Nó tự động quét, cuộn và tải xuống tất cả các hình ảnh có nguồn `blob:` trên một trang web và tổng hợp chúng thành một file PDF duy nhất.
 
-Chất lượng cao: Giữ nguyên độ phân giải gốc của ảnh (dùng naturalWidth/naturalHeight) và tự động tính toán tỉ lệ px sang pt (0.75) để PDF có kích thước chính xác.
+---
 
-Thông báo trạng thái: Hiển thị một hộp thông báo trực quan ở góc trên bên phải màn hình để người dùng biết chính xác điều gì đang xảy ra (ví dụ: "Đang cuộn...", "Đang xử lý ảnh 5/150...").
+## 🌟 Tính năng chính
 
-Tương thích bảo mật: Hoạt động trên các trang web hiện đại có Chính sách Bảo mật Nội dung (CSP) nghiêm ngặt, bao gồm cả xử lý TrustedTypes cho script.src và TrustedHTML (textContent).
+* **Tự động cuộn thông minh**: Tự động cuộn trang chính VÀ **tất cả các khung cuộn con** bên trong để kích hoạt "lazy loading", đảm bảo thu thập đủ 100% ảnh.
+* **Tổng hợp PDF**: Sử dụng thư viện `jsPDF` (tải tự động) để ghép tất cả ảnh tìm được thành một file PDF duy nhất.
+* **Chất lượng cao**: Giữ nguyên độ phân giải gốc của ảnh (dùng `naturalWidth`/`naturalHeight`) và tự động tính toán tỉ lệ `px` sang `pt` (0.75) để PDF có kích thước chính xác.
+* **Thông báo trạng thái**: Hiển thị một hộp thông báo trực quan ở góc trên bên phải màn hình để người dùng biết chính xác điều gì đang xảy ra (ví dụ: "Đang cuộn...", "Đang xử lý ảnh 5/150...").
+* **Tương thích bảo mật**: Hoạt động trên các trang web hiện đại có Chính sách Bảo mật Nội dung (CSP) nghiêm ngặt, bao gồm cả xử lý `TrustedTypes` cho `script.src` và `TrustedHTML` (`textContent`).
 
-🚀 Cách sử dụng (Dành cho khách hàng)
-Cách dễ nhất, an toàn nhất và được khuyên dùng là cài đặt script này dưới dạng Bookmarklet (Dấu trang).
+---
 
-Cài đặt một lần
-Mở file HTML: Mở file taipdf.html (file HTML bạn nhận được) trong trình duyệt của bạn.
+## 🚀 Cách sử dụng (Cho người dùng)
 
-Hiển thị Thanh Dấu trang: Nếu thanh Dấu trang (Bookmark Bar) bị ẩn, hãy nhấn Ctrl + Shift + B (Windows) hoặc Cmd + Shift + B (Mac) để nó hiện ra.
+Cách dễ nhất, an toàn nhất và được khuyên dùng là cài đặt script này dưới dạng **Bookmarklet** (Dấu trang).
 
-Kéo và Thả: Nhấn giữ chuột vào nút màu xanh "KÉO & THẢ ĐỂ TẢI PDF" và kéo nó lên Thanh Dấu trang của bạn, sau đó thả ra.
+### Cài đặt một lần
 
-Bạn sẽ thấy một bookmark mới xuất hiện. Bạn có thể nhấp chuột phải vào nó để "Chỉnh sửa" (Edit) và đổi tên thành tên gì đó ngắn gọn (ví dụ: Tải PDF).
+1.  **Mở file HTML**: Mở file `taipdf.html` (file HTML đi kèm) trong trình duyệt của bạn.
+2.  **Hiển thị Thanh Dấu trang**: Nếu thanh Dấu trang (Bookmark Bar) bị ẩn, hãy nhấn `Ctrl + Shift + B` (Windows) hoặc `Cmd + Shift + B` (Mac) để nó hiện ra.
+3.  **Kéo và Thả**: Nhấn giữ chuột vào nút màu xanh **"KÉO & THẢ ĐỂ TẢI PDF"** và kéo nó lên Thanh Dấu trang của bạn, sau đó thả ra.
+4.  Bạn sẽ thấy một bookmark mới xuất hiện. (Bạn có thể nhấp chuột phải vào nó để "Chỉnh sửa" và đổi tên thành `Tải PDF` cho gọn).
 
-Sử dụng hàng ngày
-Mở trang web có chứa các ảnh blob: mà bạn muốn tải.
+### Sử dụng hàng ngày
 
-Nhấp vào bookmark Tải PDF mà bạn vừa lưu trên thanh.
+1.  Mở trang web có chứa các ảnh `blob:` mà bạn muốn tải.
+2.  Nhấp vào bookmark `Tải PDF` mà bạn vừa lưu trên thanh.
+3.  Script sẽ tự động chạy, cuộn trang để tải tất cả ảnh.
+4.  Khi hoàn tất, file PDF sẽ được tự động tải về máy.
 
-Script sẽ tự động chạy. Hộp thông báo sẽ hiện ở góc trên bên phải.
+---
 
-Khi hoàn tất, file PDF sẽ được tự động tải về máy.
+## 👨‍💻 Mã nguồn (Source Code)
 
-👨‍💻 Cách sử dụng (Dành cho Lập trình viên / Nâng cao)
-Bạn cũng có thể chạy script trực tiếp từ Console của trình duyệt.
+Bạn có thể xem toàn bộ mã nguồn, đã được format và bình luận đầy đủ, tại file:
 
-Mở trang web bạn muốn tải ảnh.
+### ➡️ [code.js](./code.js) ⬅️
+*(Giả sử file của bạn tên là `code.js` và nằm cùng thư mục)*
 
-Nhấn F12 (hoặc Ctrl+Shift+I / Cmd+Opt+I) để mở Developer Tools.
+---
 
-Chuyển sang tab Console.
+### 🔬 Xem nhanh (Code Preview)
 
-Sao chép (copy) toàn bộ nội dung của file script JavaScript (phiên bản "siêu tự động cuộn").
+⚠️ **Lưu ý:** Đây chỉ là một **đoạn trích** (snippet) để xem nhanh logic cuộn tự động. Toàn bộ code nằm trong file [code.js](./code.js).
 
-Dán (paste) nó vào Console và nhấn Enter.
+```javascript
+    // --- 3. HÀM SIÊU TỰ ĐỘNG CUỘN (async/await) ---
+    async function superAutoScroll() {
+        console.log("Bắt đầu cuộn trang chính (window)...");
+        statusDiv.textContent = "Đang cuộn trang chính...";
+        
+        // BƯỚC 1: Cuộn trang chính (window) xuống dưới cùng
+        await new Promise(resolve => {
+            let totalHeight = 0;
+            let distance = 200; // Cuộn 200px mỗi lần
+            let timer = setInterval(() => {
+                // ... logic cuộn ...
+                if (/* đã cuộn hết */) {
+                    clearInterval(timer);
+                    resolve(); // Báo là xong bước 1
+                }
+            }, 100); 
+        });
+        
+        console.log("Đã cuộn xong trang chính. Tìm kiếm khung cuộn bên trong...");
+        statusDiv.textContent = "Đang tìm khung cuộn bên trong...";
 
-Script sẽ thực hiện các bước tương tự như Bookmarklet.
+        // BƯỚC 2: Tìm TẤT CẢ các element khác có thanh cuộn
+        const scrollableElements = [];
+        document.querySelectorAll('*').forEach(el => {
+            if (el.scrollHeight > el.clientHeight && (/*...có style cuộn...*/)) {
+                scrollableElements.push(el);
+            }
+        });
 
-⚠️ Hạn chế / Lưu ý
-Chỉ tải ảnh blob:: Script này được thiết kế đặc biệt để chỉ tìm các ảnh có src bắt đầu bằng blob:. Nó sẽ không tải các ảnh .jpg, .png hay base64 thông thường.
+        // BƯỚC 3: Cuộn lần lượt TỪNG element tìm được
+        for (const [index, el] of scrollableElements.entries()) {
+            statusDiv.textContent = `Đang cuộn khung phụ ${index + 1}/${scrollableElements.length}...`;
+            await new Promise(resolve => {
+                 // ... logic cuộn element con ...
+                let timer = setInterval(() => {
+                    if (/* đã cuộn hết element này */) {
+                        clearInterval(timer);
+                        resolve(); // Báo là xong element này
+                    }
+                }, 100);
+            });
+        }
 
-Giới hạn bộ nhớ: Với các trang cực kỳ nặng (ví dụ: 1000+ ảnh chất lượng cao), script có thể chạy chậm hoặc làm trình duyệt bị treo do giới hạn bộ nhớ RAM của một tab. (Phiên bản script này không chia nhỏ file PDF).
-
-Cấu trúc trang phức tạp: Mặc dù script đã cố gắng cuộn tất cả các phần tử, một số trang web có cấu trúc quá phức tạp hoặc dùng kỹ thuật ảo hóa (virtualization) có thể cản trở việc thu thập ảnh.
+        // BƯỚC 4: Tất cả đã được cuộn! Bắt đầu tạo PDF
+        console.log("Đã cuộn tất cả. Chờ 2 giây cho ảnh tải.");
+        statusDiv.textContent = "Đã cuộn xong. Chờ 2s cho ảnh tải...";
+        setTimeout(startPdfGeneration, 2000); // Chờ 2 giây cuối cùng
+    }
