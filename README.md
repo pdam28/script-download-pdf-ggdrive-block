@@ -1,9 +1,9 @@
-# Script Tải Ảnh (Blob) sang PDF
+# Script Tải Ảnh (Blob) sang PDF (Phiên bản Console)
 
 ![JavaScript](https://img.shields.io/badge/JavaScript-F7DF1E?style=for-the-badge&logo=javascript&logoColor=black)
 ![jsPDF](https://img.shields.io/badge/jsPDF-FF0000?style=for-the-badge&logo=adobeacrobatreader&logoColor=white)
 
-Đây là một đoạn mã JavaScript mạnh mẽ được thiết kế để chạy trong trình duyệt (dưới dạng **Bookmarklet** hoặc qua **Console**). Nó tự động quét, cuộn và tải xuống tất cả các hình ảnh có nguồn `blob:` trên một trang web và tổng hợp chúng thành một file PDF duy nhất.
+Đây là một đoạn mã JavaScript mạnh mẽ được thiết kế để chạy trực tiếp trong Console của trình duyệt. Nó tự động quét, cuộn và tải xuống tất cả các hình ảnh có nguồn `blob:` trên một trang web và tổng hợp chúng thành một file PDF duy nhất.
 
 ---
 
@@ -11,91 +11,53 @@
 
 * **Tự động cuộn thông minh**: Tự động cuộn trang chính VÀ **tất cả các khung cuộn con** bên trong để kích hoạt "lazy loading", đảm bảo thu thập đủ 100% ảnh.
 * **Tổng hợp PDF**: Sử dụng thư viện `jsPDF` (tải tự động) để ghép tất cả ảnh tìm được thành một file PDF duy nhất.
-* **Chất lượng cao**: Giữ nguyên độ phân giải gốc của ảnh (dùng `naturalWidth`/`naturalHeight`) và tự động tính toán tỉ lệ `px` sang `pt` (0.75) để PDF có kích thước chính xác.
+* **Chất lượng cao**: Giữ nguyên độ phân giải gốc của ảnh (`naturalWidth`/`naturalHeight`) và tự động tính toán tỉ lệ `px` sang `pt` (0.75) để PDF có kích thước chính xác.
 * **Thông báo trạng thái**: Hiển thị một hộp thông báo trực quan ở góc trên bên phải màn hình để người dùng biết chính xác điều gì đang xảy ra (ví dụ: "Đang cuộn...", "Đang xử lý ảnh 5/150...").
-* **Tương thích bảo mật**: Hoạt động trên các trang web hiện đại có Chính sách Bảo mật Nội dung (CSP) nghiêm ngặt, bao gồm cả xử lý `TrustedTypes` cho `script.src` và `TrustedHTML` (`textContent`).
 
 ---
 
-## 🚀 Cách sử dụng (Cho người dùng)
+## 🚀 Hướng dẫn sử dụng
 
-Cách dễ nhất, an toàn nhất và được khuyên dùng là cài đặt script này dưới dạng **Bookmarklet** (Dấu trang).
-
-### Cài đặt một lần
-
-1.  **Mở file HTML**: Mở file `taipdf.html` (file HTML đi kèm) trong trình duyệt của bạn.
-2.  **Hiển thị Thanh Dấu trang**: Nếu thanh Dấu trang (Bookmark Bar) bị ẩn, hãy nhấn `Ctrl + Shift + B` (Windows) hoặc `Cmd + Shift + B` (Mac) để nó hiện ra.
-3.  **Kéo và Thả**: Nhấn giữ chuột vào nút màu xanh **"KÉO & THẢ ĐỂ TẢI PDF"** và kéo nó lên Thanh Dấu trang của bạn, sau đó thả ra.
-4.  Bạn sẽ thấy một bookmark mới xuất hiện. (Bạn có thể nhấp chuột phải vào nó để "Chỉnh sửa" và đổi tên thành `Tải PDF` cho gọn).
-
-### Sử dụng hàng ngày
+Vui lòng làm theo chính xác các bước sau:
 
 1.  Mở trang web có chứa các ảnh `blob:` mà bạn muốn tải.
-2.  Nhấp vào bookmark `Tải PDF` mà bạn vừa lưu trên thanh.
-3.  Script sẽ tự động chạy, cuộn trang để tải tất cả ảnh.
-4.  Khi hoàn tất, file PDF sẽ được tự động tải về máy.
+2.  Nhấn phím `F12` (hoặc `Ctrl+Shift+I` trên Windows, `Cmd+Opt+I` trên Mac) để mở công cụ lập trình (Developer Tools).
+3.  Tìm và nhấp vào tab có tên **`Console`**.
+4.  Đọc kỹ phần **CẢNH BÁO BẢO MẬT** quan trọng ở bên dưới.
+5.  Sao chép (copy) **toàn bộ** khối mã trong phần [Mã nguồn](#-mã-nguồn-dùng-để-sao-chép) bên dưới.
+6.  Quay lại tab `Console` trong trình duyệt của bạn, dán (paste) mã vào và nhấn `Enter`.
+7.  Script sẽ tự động chạy, bạn sẽ thấy thông báo "Chuẩn bị cuộn trang..." ở góc trên bên phải.
 
 ---
 
-## 👨‍💻 Mã nguồn (Source Code)
+## ⚠️ CẢNH BÁO BẢO MẬT (Quan trọng!)
 
-Bạn có thể xem toàn bộ mã nguồn, đã được format và bình luận đầy đủ, tại file:
+Khi bạn dán mã vào `Console`, hầu hết các trình duyệt hiện đại (như Chrome, Firefox, Edge) sẽ **hiển thị một cảnh báo bảo mật lớn màu đỏ**.
 
-### ➡️ [code.js](./code.js) ⬅️
-*(Giả sử file của bạn tên là `code.js` và nằm cùng thư mục)*
+Nó thường nói điều gì đó như **"STOP!"** hoặc **"Cẩn thận!"** và ngăn bạn dán mã vào. Đây là một tính năng bảo mật bình thường để ngăn người lạ lừa bạn chạy mã độc.
+
+
+
+**Để vượt qua cảnh báo này:**
+
+* Trình duyệt sẽ yêu cầu bạn gõ một dòng chữ đặc biệt (ví dụ: **`allow pasting`** hoặc **`cho phép dán`**) vào Console để xác nhận bạn hiểu việc mình đang làm.
+* Hãy **gõ chính xác dòng chữ đó** và nhấn `Enter`.
+* Sau khi xác nhận, **dán lại (paste) mã nguồn** ở dưới một lần nữa và nhấn `Enter`. Lần này script sẽ chạy.
 
 ---
 
-### 🔬 Xem nhanh (Code Preview)
+## 📋 Mã nguồn (Dùng để sao chép)
 
-⚠️ **Lưu ý:** Đây chỉ là một **đoạn trích** (snippet) để xem nhanh logic cuộn tự động. Toàn bộ code nằm trong file [code.js](./code.js).
+Sao chép **toàn bộ** khối mã dưới đây:
 
 ```javascript
-    // --- 3. HÀM SIÊU TỰ ĐỘNG CUỘN (async/await) ---
-    async function superAutoScroll() {
-        console.log("Bắt đầu cuộn trang chính (window)...");
-        statusDiv.textContent = "Đang cuộn trang chính...";
-        
-        // BƯỚC 1: Cuộn trang chính (window) xuống dưới cùng
-        await new Promise(resolve => {
-            let totalHeight = 0;
-            let distance = 200; // Cuộn 200px mỗi lần
-            let timer = setInterval(() => {
-                // ... logic cuộn ...
-                if (/* đã cuộn hết */) {
-                    clearInterval(timer);
-                    resolve(); // Báo là xong bước 1
-                }
-            }, 100); 
-        });
-        
-        console.log("Đã cuộn xong trang chính. Tìm kiếm khung cuộn bên trong...");
-        statusDiv.textContent = "Đang tìm khung cuộn bên trong...";
+function _0x428b(){const _0x400de1=['overflowY','length','Lỗi:\x20Không\x20tạo\x20được\x20file\x20PDF.','...','src','Đang\x20cuộn\x20trang\x20chính...','log','Không\x20thể\x20tải\x20script\x20jsPDF.','getComputedStyle','jsPDF\x20đã\x20tải\x20xong.','clientHeight','img','6152992FlPSjw','.pdf','https://cdnjs.cloudflare.com/ajax/libs/jspdf/1.5.3/jspdf.debug.js','trustedTypes','152522nXnmSK','3585000YfEQea','Không\x20tìm\x20thấy\x20ảnh\x20(blob)\x20nào.\x20Script\x20đã\x20cuộn\x20tự\x20động\x20nhưng\x20không\x20thấy\x20ảnh.','scroll','scrollHeight','width','Đã\x20cuộn\x20xong\x20trang\x20chính.\x20Tìm\x20kiếm\x20khung\x20cuộn\x20bên\x20trong...','Không\x20tìm\x20thấy\x20ảnh\x20blob\x20nào.\x20(Đã\x20cuộn\x20hết\x20nhưng\x20không\x20có\x20ảnh).','onload','166888ywGNsT','scrollTop','1499695NeWVrX','naturalWidth','textContent','appendChild','\x20ảnh\x20blob.','position:\x20fixed;\x20top:\x2010px;\x20right:\x2010px;\x20padding:\x2015px;\x20background-color:\x20#007bff;\x20color:\x20white;\x20z-index:\x209999;\x20border-radius:\x205px;\x20font-family:\x20sans-serif;','Đang\x20cuộn\x20element:','createElement','Không\x20thể\x20tải\x20thư\x20viện\x20jsPDF.\x20Vui\x20lòng\x20kiểm\x20tra\x20kết\x20nối\x20mạng.','Bắt\x20đầu\x20cuộn\x20trang\x20chính\x20(window)...','default','6641215IfuoOY','scrollY','error','Đang\x20tải\x20thư\x20viện\x20jsPDF...','title','complete','drawImage','push','naturalHeight','save','Tìm\x20thấy\x20','removeChild','\x20chưa\x20tải\x20xong\x20hoặc\x20bị\x20lỗi,\x20bỏ\x20qua.','from','querySelectorAll','createPolicy','addImage','onerror','toDataURL','Đã\x20cuộn\x20tất\x20cả.\x20Chờ\x202\x20giây\x20cho\x20ảnh\x20tải.','Đang\x20tìm\x20khung\x20cuộn\x20bên\x20trong...','49nvRqrk','filter','forEach','createScriptURL','script','warn','Ảnh\x20','cssText','\x20ảnh.\x20Bắt\x20đầu\x20xử\x20lý...','JPEG','Lỗi\x20khi\x20gán\x20URL\x20an\x20toàn\x20(Trusted\x20Types):\x20','Lỗi\x20khi\x20xử\x20lý\x20ảnh:','9SdkgZh','canvas','auto','Đang\x20xử\x20lý\x20ảnh\x20','Đã\x20xuất\x20PDF:','body','addPage','19142613lBNVAA','entries','\x20khung\x20cuộn.\x20Bắt\x20đầu\x20cuộn...','Đang\x20lưu\x20file\x20PDF...','Đang\x20thu\x20thập\x20ảnh...'];_0x428b=function(){return _0x400de1;};return _0x428b();}function _0xd6bd(_0xaeb04b,_0x817ced){const _0x428b69=_0x428b();return _0xd6bd=function(_0xd6bd75,_0x460f57){_0xd6bd75=_0xd6bd75-0x104;let _0x675601=_0x428b69[_0xd6bd75];return _0x675601;},_0xd6bd(_0xaeb04b,_0x817ced);}(function(_0x32c09f,_0x102d17){const _0x233578=_0xd6bd,_0x203fe0=_0x32c09f();while(!![]){try{const _0x46146b=-parseInt(_0x233578(0x11d))/0x1+-parseInt(_0x233578(0x112))/0x2*(parseInt(_0x233578(0x149))/0x3)+-parseInt(_0x233578(0x10e))/0x4+parseInt(_0x233578(0x128))/0x5+parseInt(_0x233578(0x113))/0x6+-parseInt(_0x233578(0x13d))/0x7*(-parseInt(_0x233578(0x11b))/0x8)+parseInt(_0x233578(0x150))/0x9;if(_0x46146b===_0x102d17)break;else _0x203fe0['push'](_0x203fe0['shift']());}catch(_0xc54abd){_0x203fe0['push'](_0x203fe0['shift']());}}}(_0x428b,0xe38a1),(function(){const _0xe47adb=_0xd6bd;let _0x29880a=document[_0xe47adb(0x124)]('div');_0x29880a[_0xe47adb(0x11f)]='Chuẩn\x20bị\x20cuộn\x20trang...',_0x29880a['style'][_0xe47adb(0x144)]=_0xe47adb(0x122),document[_0xe47adb(0x14e)][_0xe47adb(0x120)](_0x29880a);function _0x22da3e(){const _0x445bbd=_0xe47adb;_0x29880a[_0x445bbd(0x11f)]=_0x445bbd(0x12b);let _0x46bbd0=document['createElement'](_0x445bbd(0x141));_0x46bbd0[_0x445bbd(0x11a)]=function(){const _0x4e886=_0x445bbd;console[_0x4e886(0x108)](_0x4e886(0x10b)),_0x29880a[_0x4e886(0x11f)]=_0x4e886(0x154);const _0xcbc6e=document['getElementsByTagName'](_0x4e886(0x10d)),_0x155401=Array[_0x4e886(0x135)](_0xcbc6e)[_0x4e886(0x13e)](_0x1152d9=>/^blob:/['test'](_0x1152d9[_0x4e886(0x106)]));if(_0x155401[_0x4e886(0x156)]===0x0){console[_0x4e886(0x142)](_0x4e886(0x119)),alert(_0x4e886(0x114)),document[_0x4e886(0x14e)]['removeChild'](_0x29880a);return;}console[_0x4e886(0x108)](_0x4e886(0x132)+_0x155401[_0x4e886(0x156)]+_0x4e886(0x121)),_0x29880a[_0x4e886(0x11f)]=_0x4e886(0x132)+_0x155401[_0x4e886(0x156)]+_0x4e886(0x145);let _0x5782ec,_0x249f64=!![];const _0x37cbc6=0.75;for(const [_0x2a66a6,_0x360f99]of _0x155401['entries']()){_0x29880a[_0x4e886(0x11f)]=_0x4e886(0x14c)+(_0x2a66a6+0x1)+'\x20/\x20'+_0x155401[_0x4e886(0x156)]+_0x4e886(0x105),console['log'](_0x4e886(0x14c)+(_0x2a66a6+0x1)+'\x20/\x20'+_0x155401[_0x4e886(0x156)]+':\x20'+_0x360f99[_0x4e886(0x106)]);if(!_0x360f99[_0x4e886(0x12d)]||_0x360f99[_0x4e886(0x11e)]===0x0){console['warn'](_0x4e886(0x143)+_0x360f99[_0x4e886(0x106)]+_0x4e886(0x134));continue;}try{let _0x36dd09=_0x360f99[_0x4e886(0x11e)],_0x1e3096=_0x360f99[_0x4e886(0x130)],_0x5dba1a=_0x36dd09*_0x37cbc6,_0x74f082=_0x1e3096*_0x37cbc6,_0x4e3b2d=document[_0x4e886(0x124)](_0x4e886(0x14a)),_0xc2b929=_0x4e3b2d['getContext']('2d');_0x4e3b2d[_0x4e886(0x117)]=_0x36dd09,_0x4e3b2d['height']=_0x1e3096,_0xc2b929[_0x4e886(0x12e)](_0x360f99,0x0,0x0,_0x36dd09,_0x1e3096);let _0x59fc45=_0x4e3b2d[_0x4e886(0x13a)]('image/jpeg',0x1),_0x4915be=_0x5dba1a>_0x74f082?'l':'p';_0x249f64?(_0x5782ec=new jsPDF({'orientation':_0x4915be,'unit':'pt','format':[_0x5dba1a,_0x74f082]}),_0x5782ec[_0x4e886(0x138)](_0x59fc45,'JPEG',0x0,0x0,_0x5dba1a,_0x74f082),_0x249f64=![]):(_0x5782ec[_0x4e886(0x14f)]([_0x5dba1a,_0x74f082],_0x4915be),_0x5782ec['addImage'](_0x59fc45,_0x4e886(0x146),0x0,0x0,_0x5dba1a,_0x74f082));}catch(_0x4d56dc){console[_0x4e886(0x12a)](_0x4e886(0x148),_0x360f99['src'],_0x4d56dc);}}if(_0x5782ec){_0x29880a['textContent']=_0x4e886(0x153);let _0x56723d=(document[_0x4e886(0x12c)]['split']('.pdf\x20-\x20')[0x0]||document[_0x4e886(0x12c)]||'download')+_0x4e886(0x10f);_0x5782ec[_0x4e886(0x131)](_0x56723d),console[_0x4e886(0x108)](_0x4e886(0x14d),_0x56723d),_0x29880a[_0x4e886(0x11f)]='Đã\x20lưu\x20xong!';}else _0x29880a[_0x4e886(0x11f)]=_0x4e886(0x104);setTimeout(()=>document[_0x4e886(0x14e)]['removeChild'](_0x29880a),0xbb8);},_0x46bbd0[_0x445bbd(0x139)]=function(){const _0x1c1d16=_0x445bbd;console[_0x1c1d16(0x12a)](_0x1c1d16(0x109)),alert(_0x1c1d16(0x125)),document[_0x1c1d16(0x14e)][_0x1c1d16(0x133)](_0x29880a);};try{const _0x397db8=_0x445bbd(0x110);if(window[_0x445bbd(0x111)]&&window['trustedTypes'][_0x445bbd(0x137)]){const _0x5b8713=window['trustedTypes'][_0x445bbd(0x137)](_0x445bbd(0x127),{'createScriptURL':_0xbf649e=>_0xbf649e});_0x46bbd0[_0x445bbd(0x106)]=_0x5b8713[_0x445bbd(0x140)](_0x397db8);}else _0x46bbd0[_0x445bbd(0x106)]=_0x397db8;}catch(_0x108eac){console['error'](_0x445bbd(0x147),_0x108eac),_0x46bbd0[_0x445bbd(0x106)]=_0x445bbd(0x110);}document[_0x445bbd(0x14e)]['appendChild'](_0x46bbd0);}async function _0x33bf8d(){const _0x2ad8e1=_0xe47adb;console['log'](_0x2ad8e1(0x126)),_0x29880a[_0x2ad8e1(0x11f)]=_0x2ad8e1(0x107),await new Promise(_0x4c57cb=>{let _0x4490d8=0x0,_0x96c9cd=0xc8,_0x508d35=setInterval(()=>{const _0x22ec4b=_0xd6bd;let _0x17bed6=document[_0x22ec4b(0x14e)][_0x22ec4b(0x116)];window['scrollBy'](0x0,_0x96c9cd),_0x4490d8+=_0x96c9cd,(_0x4490d8>=_0x17bed6||window['innerHeight']+window[_0x22ec4b(0x129)]>=_0x17bed6-0xa)&&(clearInterval(_0x508d35),_0x4c57cb());},0x64);}),console['log'](_0x2ad8e1(0x118)),_0x29880a['textContent']=_0x2ad8e1(0x13c),await new Promise(_0x1d6125=>setTimeout(_0x1d6125,0x1f4));const _0x512329=[];document[_0x2ad8e1(0x136)]('*')[_0x2ad8e1(0x13f)](_0x143dc3=>{const _0xecc576=_0x2ad8e1;if(_0x143dc3[_0xecc576(0x116)]>_0x143dc3[_0xecc576(0x10c)]){const _0x421ddf=window[_0xecc576(0x10a)](_0x143dc3);(_0x421ddf['overflowY']===_0xecc576(0x115)||_0x421ddf[_0xecc576(0x155)]===_0xecc576(0x14b))&&(_0x143dc3!==document['documentElement']&&_0x143dc3!==document[_0xecc576(0x14e)]&&_0x512329[_0xecc576(0x12f)](_0x143dc3));}});if(_0x512329[_0x2ad8e1(0x156)]===0x0)console[_0x2ad8e1(0x108)]('Không\x20tìm\x20thấy\x20khung\x20cuộn\x20nào\x20khác.');else{console['log']('Tìm\x20thấy\x20'+_0x512329[_0x2ad8e1(0x156)]+_0x2ad8e1(0x152));for(const [_0x4539b7,_0x468843]of _0x512329[_0x2ad8e1(0x151)]()){_0x29880a[_0x2ad8e1(0x11f)]='Đang\x20cuộn\x20khung\x20phụ\x20'+(_0x4539b7+0x1)+'/'+_0x512329[_0x2ad8e1(0x156)]+'...',console[_0x2ad8e1(0x108)](_0x2ad8e1(0x123),_0x468843),await new Promise(_0x57442b=>{let _0x4410bb=0x0,_0x50c2fb=0xc8,_0xca242e=setInterval(()=>{const _0x4d0a5b=_0xd6bd;let _0x1fb98f=_0x468843['scrollHeight'];_0x468843[_0x4d0a5b(0x11c)]+=_0x50c2fb,_0x4410bb+=_0x50c2fb,(_0x4410bb>=_0x1fb98f||_0x468843['scrollTop']+_0x468843['clientHeight']>=_0x1fb98f-0xa)&&(clearInterval(_0xca242e),_0x57442b());},0x64);});}}console['log'](_0x2ad8e1(0x13b)),_0x29880a['textContent']='Đã\x20cuộn\x20xong.\x20Chờ\x202s\x20cho\x20ảnh\x20tải...',setTimeout(_0x22da3e,0x7d0);}_0x33bf8d();}()));
+```
 
-        // BƯỚC 2: Tìm TẤT CẢ các element khác có thanh cuộn
-        const scrollableElements = [];
-        document.querySelectorAll('*').forEach(el => {
-            if (el.scrollHeight > el.clientHeight && (/*...có style cuộn...*/)) {
-                scrollableElements.push(el);
-            }
-        });
+---
 
-        // BƯỚC 3: Cuộn lần lượt TỪNG element tìm được
-        for (const [index, el] of scrollableElements.entries()) {
-            statusDiv.textContent = `Đang cuộn khung phụ ${index + 1}/${scrollableElements.length}...`;
-            await new Promise(resolve => {
-                 // ... logic cuộn element con ...
-                let timer = setInterval(() => {
-                    if (/* đã cuộn hết element này */) {
-                        clearInterval(timer);
-                        resolve(); // Báo là xong element này
-                    }
-                }, 100);
-            });
-        }
+## 🚫 Hạn chế / Lưu ý
 
-        // BƯỚC 4: Tất cả đã được cuộn! Bắt đầu tạo PDF
-        console.log("Đã cuộn tất cả. Chờ 2 giây cho ảnh tải.");
-        statusDiv.textContent = "Đã cuộn xong. Chờ 2s cho ảnh tải...";
-        setTimeout(startPdfGeneration, 2000); // Chờ 2 giây cuối cùng
-    }
+* **Chỉ tải ảnh `blob:`**: Script này được thiết kế đặc biệt để chỉ tìm các ảnh có `src` bắt đầu bằng `blob:`. Nó sẽ **không** tải các ảnh `.jpg`, `.png` hay `base64` thông thường.
+* **Giới hạn bộ nhớ**: Với các trang *cực kỳ* nặng (ví dụ: 1000+ ảnh chất lượng cao), script có thể chạy chậm hoặc làm trình duyệt bị treo do giới hạn bộ nhớ RAM của một tab.
+* **Mã rối (Obfuscation)**: Mã nguồn đã bị làm rối (obfuscated) để thu gọn. Đây là lý do chính khiến trình duyệt hiển thị cảnh báo bảo mật.
